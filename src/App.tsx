@@ -8,9 +8,9 @@ import "./App.css";
 function App() {
   const ListofDays = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const ref = useRef<HTMLInputElement | null>(null);
-  const [day, setDay] = useState<number>(0);
-  const [month, setMounth] = useState<number>(0);
-  const [year, setYear] = useState<number>(0);
+  const [day, setDay] = useState<number | null>(null);
+  const [month, setMounth] = useState<number | null>(null);
+  const [year, setYear] = useState<number | null>(null);
   const [resultDay, setResultDay] = useState<number>(0);
   const [resultMonth, setResultMonth] = useState<number>(0);
   const [resultYear, setResultYear] = useState<number>(0);
@@ -27,7 +27,16 @@ function App() {
     setResultYear(0)
   }  
 
-  const errorDay = () =>{
+  const invalidDay = () =>{
+    setError("day", {
+      type: "manual",
+      message: "must be a valid mounth",
+    })
+    resetResult();
+  };
+  // min: { value: 1, message: "must be a valid mounth" },
+  //               max: { value: 12, message: "must be a valid mounth" },
+  const invalidMonth = () =>{
     setError("day", {
       type: "manual",
       message: "must be a valid mounth",
@@ -35,7 +44,7 @@ function App() {
     resetResult();
   };
 
-  const errorYear = ()=>{
+  const invalidYear = ()=>{
     setError("year", {
       type: "manual",
       message: "must be in past",
@@ -46,26 +55,28 @@ function App() {
  
   const onSubmit = async () => {
 
+    if(month && (month < 1 || month > 12)) invalidMonth()
+
     if (day && year && month && ListofDays[month - 1]) {
       if (month === 2) {
         //Check Leap Year
         if ((0 == year % 4 && 0 != year % 100) || 0 == year % 400) {
           if (day > 29) {
-            errorDay();
+            invalidDay();
             return;
           }
         } else if (day > 28) {
-          errorDay();
+          invalidDay();
           return;
         }
       } else if (day > ListofDays[month - 1]) {
-        errorDay();
+        invalidDay();
         return;
       }
     }
 
     if (year && new Date().getFullYear() < year) {
-      errorYear();
+      invalidYear();
       return;
     }
 
@@ -83,7 +94,7 @@ function App() {
         <form className="layout_form" onSubmit={handleSubmit(onSubmit)}>
           <InputNumber
             label="day"
-            value={String(day).padStart(2, "0")}
+            value={day ? String(day).padStart(2, "0") : ""}
             placeholder="DD"
             onChange={(e) => {
               setDay(Number(e.target.value));
@@ -96,7 +107,7 @@ function App() {
             error={errors.day?.message}
           />
           <InputNumber
-            value={String(month).padStart(2, "0")}
+            value={month ? String(month).padStart(2, "0") : ""}
             label="month"
             placeholder="MM"
             min={1}
@@ -107,14 +118,12 @@ function App() {
             register={{
               ...register("month", {
                 required: { value: true, message: "this field is required" },
-                max: { value: 12, message: "must be a valid mounth" },
-                min: { value: 1, message: "must be a valid mounth" },
               }),
             }}
             error={errors.month?.message}
           />
           <InputNumber
-            value={String(year).padStart(4, "0")}
+            value={year ? String(year).padStart(4, "0") : ""}
             label="year"
             placeholder="YYYY"
             onChange={(e) => {
