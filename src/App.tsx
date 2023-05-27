@@ -44,7 +44,7 @@ function App() {
   }
 
  
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
 
     if (day && year && month && ListofDays[month - 1]) {
       if (month === 2) {
