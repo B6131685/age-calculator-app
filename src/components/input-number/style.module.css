@@ -1,0 +1,74 @@
+.container{
+    width: 100%;
+    display: grid;
+    gap: 10px;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 20px ;
+}
+
+
+.inputContainer {
+  border: 1px solid var(--Smokey-grey);
+  width: 100%;
+}
+
+input[type=number]:focus {
+  outline-color: var(--Purple);
+}
+
+.label{
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  padding: 10px;
+  font-size: 32px;
+  border-radius: 5px;
+}
+
+
+/* error */
+.errorContainer{
+  border: 1px solid var( --Light-red);
+}
+
+.labelError{
+  color: var( --Light-red);
+}
+.error{
+  font-weight: 400;
+  font-size: 8px;
+  position: absolute;
+  color: var( --Light-red);
+  bottom: -20px;
+}
+
+@media screen and (930px > width > 480px) {
+  .error{
+    font-size: 10px;
+  }
+}
+
+@media screen and (1440px > width > 929px) {
+  .error{
+    font-size: 12px;
+  }
+}
+
+@media screen and ( width > 1440px) {
+  .error{
+    font-size: 16px;
+    bottom: -25px;
+  }
+}

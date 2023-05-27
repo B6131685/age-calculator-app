@@ -1,0 +1,14 @@
+.style{
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+.value{
+    color: var(--Purple);
+}
+
+@media screen and ( width >= 800px ) {
+    .style{
+        font-size: 70px;
+    }
+}
